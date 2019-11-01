@@ -3,8 +3,8 @@ import * as PIXI from 'pixi.js'
 
 const initPixi = () => {  
   const app = new PIXI.Application({ 
-    width: 60,         // default: 800
-    height: 40,        // default: 600
+    // width: 60,         // default: 800
+    // height: 40,        // default: 600
     antialias: true,    // default: false
     // transparent: false, // default: false
     // resolution: 2,       // default: 1
