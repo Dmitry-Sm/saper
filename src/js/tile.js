@@ -9,17 +9,8 @@ export default class Tile {
     this.clicked = false
     this.color = colors.idle
     this.bombs = bombs
+    this.near = [] // array of tiles
     this.near_bombs = bombs
-
-    this.near = []
-    // this.l  = null // соседи
-    // this.lt = null 
-    // this.t  = null
-    // this.tr = null
-    // this.r  = null
-    // this.rb = null
-    // this.b  = null
-    // this.bl = null
 
     this.graphics = new PIXI.Graphics();
     this.graphics.interactive = true
@@ -54,6 +45,10 @@ export default class Tile {
   }
 
   click(evt) {
+    console.log(evt.data.originalEvent);
+    const info = document.querySelector('.game-info')
+    info.innerHTML = evt.data.originalEvent.which
+    
     if (this.clicked) {
       return
     }
@@ -66,37 +61,16 @@ export default class Tile {
 
       return
     }
-    this.b_text.visible = true
-
-    // const l = this.l
-    // const r = this.r
-    // const t = this.t
-    // const b = this.b
-    
-    // l && l.draw(colors.hover)
-    // r && r.draw(colors.hover)
-    // t && t.draw(colors.hover)
-    // b && b.draw(colors.hover)
-
-    // const n_bombs = 
-    //   (l ? l.bombs == 0 : 0) +
-    //   (r ? r.bombs == 0 : 0) +
-    //   (t ? t.bombs == 0 : 0) +
-    //   (b ? b.bombs == 0 : 0)
-      
-    console.log(this);
-    // console.log('L - ' + l.bombs);
-    // console.log(r.bombs);
-    // console.log('B - ' + b.bombs);
-    
-    // if (n_bombs >= 4) {
-    //   l && !l.bombs && l.click()
-    //   r && !r.bombs && r.click()
-    //   t && !t.bombs && t.click()
-    //   b && !b.bombs && b.click()
-    // }
-    
     this.draw(colors.clicked)
+
+    if (this.near_bombs == 0) {
+      for (const t of this.near) {
+        t.click()
+      }
+    }
+    else {
+      this.b_text.visible = true
+    }
   }
 
   hover() {

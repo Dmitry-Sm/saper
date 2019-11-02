@@ -5,7 +5,7 @@ import app from './app'
 
 import { loadTextures, sprites } from './pixi/textures';
 import { initResize } from './pixi/resize';
-import Board from './pixi/board';
+import Board from './board';
 import { startLoop } from './loop';
 
 

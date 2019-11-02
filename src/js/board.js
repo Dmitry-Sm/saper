@@ -1,11 +1,11 @@
 import * as PIXI from 'pixi.js'
-import app from '../app';
+import app from './app';
 import Tile from './tile';
 
 const x_num = 10
 const y_num = 8
-const min_border = 40
-const offset = 140
+const min_border = 20
+const offset = 120
 
 export default class Board {
   constructor() {
@@ -16,11 +16,12 @@ export default class Board {
     this.container.position.x = 0
     this.container.position.y = 0
 
-    this.width = 600
-    this.height = 400
-
     const resize = this.resize.bind(this)
-    window.addEventListener('resize', resize)
+    resize()
+    window.addEventListener('resize', () => {
+      resize()
+      this.draw()
+    })
 
   }
 
@@ -83,7 +84,7 @@ export default class Board {
 
   resize() {
     const window_width = window.innerWidth
-    const window_height = window.innerHeight - 140
+    const window_height = window.innerHeight - offset
     const window_aspect = window_width / window_height
 
     if (window_aspect < this.aspect) { //  по ширине
@@ -91,17 +92,16 @@ export default class Board {
       this.height = this.width / this.aspect
 
       this.container.position.x = min_border / 2
-      this.container.position.y = window_height / 2 - this.height / 2 + 140
+      this.container.position.y = window_height / 2 - this.height / 2 + offset
     }
     else { // по высоте
       this.height = window_height - min_border
       this.width = this.height * this.aspect
 
       this.container.position.x = window_width / 2 - this.width / 2
-      this.container.position.y = window_height - this.height - min_border/2 + 140
+      // this.container.position.y = window_height - this.height - min_border/2 + offset
+      this.container.position.y = min_border/2 + offset
     }
-    
-    this.draw()
   }
 
   update() {

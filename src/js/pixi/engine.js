@@ -19,8 +19,11 @@ const initPixi = () => {
   const container = document.querySelector('.container')
   container.appendChild(app.view)
 
+  app.view.addEventListener('contextmenu', e => e.preventDefault())
+
   return app
 }
+
 
 
 export {initPixi}
