@@ -1,3 +1,4 @@
+import app from "./app"
 
 const initControls = (params) => {
   const start_btn = document.querySelector('.start-btn')
@@ -10,20 +11,28 @@ const initControls = (params) => {
 
   
   start_btn.addEventListener('click', evt => {
-
+    start_menu.style.visibility = 'hidden'
+    pause_btn.style.visibility = 'visible'
+    // restart
+    app.board.init()
+    app.board.draw()
   })
 
   pause_btn.addEventListener('click', evt => {
-    pause_menu.style.display = 'block'
+    pause_menu.style.visibility = 'visible'
     pause_btn.style.visibility = 'hidden'
   })
   
   exit_btn.addEventListener('click', evt => {
+    start_menu.style.visibility = 'visible'
+    pause_menu.style.visibility = 'hidden'
+    
+    // clear board
     
   })
   resume_btn.addEventListener('click', evt => {
     pause_btn.style.visibility = 'visible'
-    pause_menu.style.display = 'none'
+    pause_menu.style.visibility = 'hidden'
     
   })
   

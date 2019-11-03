@@ -37,15 +37,21 @@ export default class Board {
       resize()
       this.draw()
     })
-  }
 
-  init() {
     for (let x = 0; x < x_num; x++) {
       this.tiles[x] = []
       for (let y = 0; y < y_num; y++) {
         const tile = new Tile({position: {x: x, y: y}, width: 1})
         this.container.addChild(tile.graphics);
         this.tiles[x][y] = tile
+      }
+    }
+  }
+
+  init() {
+    for (let x = 0; x < x_num; x++) {
+      for (let y = 0; y < y_num; y++) {
+        this.tiles[x][y].reset()
       }
     }
     const safe_bombs_num = Math.min(x_num * y_num, bombs_num)

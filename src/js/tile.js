@@ -4,15 +4,9 @@ import { loose } from './main'
 
 
 export default class Tile {
-  constructor({isBomb = false, position, width}) {
+  constructor({position, width}) {
     this.position = position
     this.width = width
-    this.checked = false
-    this.marked = false
-    this.color = colors.idle
-    this.isBomb = isBomb
-    this.near = [] // array of tiles
-    this.near_bombs = 0
 
     this.graphics = new PIXI.Graphics();
     this.graphics.interactive = true
@@ -21,9 +15,10 @@ export default class Tile {
     this.b_text = new PIXI.Text(this.near_bombs, {fontFamily : 'Arial', fontSize: 14, fill : 0x111122})
     // this.text.visible = false
     this.b_text.visible = false
-
     this.graphics.addChild(this.text)
     this.graphics.addChild(this.b_text)
+
+    this.reset()
 
     const check = this.check.bind(this)
     const mark = this.mark.bind(this)
@@ -46,6 +41,18 @@ export default class Tile {
     this.graphics.beginFill(color);
     this.graphics.drawRect(this.position.x, this.position.y, this.width-1, this.width-1);
     this.graphics.endFill();
+  }
+
+  reset() {
+    this.checked = false
+    this.marked = false
+    this.isBomb = false
+    this.text.text = ''
+    this.b_text.visible = false
+
+    this.color = colors.idle
+    this.near = [] // array of tiles
+    this.near_bombs = 0
   }
 
   check(evt) {

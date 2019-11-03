@@ -48,7 +48,7 @@ canvas {
   display: flex;
   align-items: center;
   // text-align: center;
-  display: none;
+  visibility: hidden;
   
   .start-btn {
     position: absolute;
@@ -72,7 +72,7 @@ canvas {
   display: flex;
   align-items: center;
   color: white;
-  display: none;
+  visibility: hidden;
   
   .exit-btn {
     position: absolute;
@@ -100,11 +100,11 @@ canvas {
 
   cursor: pointer;
 
-  border-radius: 20px;
+  border-radius: 10px;
   background: rgba(80, 20, 40, 1);
 
   &:hover {
-    background: rgba(80, 30, 50, 1);
+    background: rgba(60, 30, 50, 1);
   }
 }
 
@@ -125,8 +125,11 @@ canvas {
   color: white;
   justify-content: center; 
   cursor: pointer;
-  display: none;
   
-  border-radius: 20px;
+  &:hover {
+    background: rgba(60, 30, 50, 1);
+  }
+  
+  border-radius: 10px;
   background: rgba(80, 20, 40, 1);
 }

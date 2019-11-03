@@ -52,10 +52,5 @@ export {
 }
 
 
-// TODO: screens
-// TODO: restart
 // TODO: touch control
-
-
-
-
+// TODO: visual
