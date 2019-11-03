@@ -7,6 +7,7 @@ import { loadTextures, sprites } from './pixi/textures';
 import { initResize } from './pixi/resize';
 import Board from './board';
 import { startLoop } from './loop';
+import initControls from './controls';
 
 
 
@@ -20,6 +21,7 @@ window.onload = async () => {
   app.board.init()
   app.board.draw()
 
+  initControls()
 
   startLoop()
 
@@ -30,6 +32,29 @@ window.onload = async () => {
 
   // app.pixi.stage.addChild(sprites.cat)
 }
+
+const win = () => {
+  console.log('Win!');
+  
+  app.board.interactive = false
+}
+
+const loose = () => {
+  console.log('Loose!');
+
+  app.board.interactive = false
+  
+}
+
+export {
+  win,
+  loose
+}
+
+
+// TODO: screens
+// TODO: restart
+// TODO: touch control
 
 
 

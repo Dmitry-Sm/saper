@@ -1,39 +1,63 @@
 import * as PIXI from 'pixi.js'
 import app from './app';
 import Tile from './tile';
+import { win } from './main';
 
-const x_num = 10
-const y_num = 8
+const x_num = 3
+const y_num = 2
 const min_border = 20
 const offset = 120
+const bombs_num = 3
+
 
 export default class Board {
   constructor() {
     this.aspect = x_num / y_num
     this.container = new PIXI.Container();
-    app.pixi.stage.addChild(this.container);
     this.tiles = [[]]
-    this.container.position.x = 0
-    this.container.position.y = 0
+    // this.container.position.x = 0
+    // this.container.position.y = 0
+    this.container.width = x_num
+    this.container.height = y_num
+    this.container.interactive = true
+    app.pixi.stage.addChild(this.container);
+
+    const check = this.check.bind(this)
+    const mark = this.mark.bind(this)
+    this.container.on('click', check)
+      .on('rightclick', mark)
+      // .on('pointerover', hover)
+      // .on('pointerout', unhover)
 
     const resize = this.resize.bind(this)
-    resize()
+    // resize()
+    // console.log(this.container.width);
+    
     window.addEventListener('resize', () => {
       resize()
       this.draw()
     })
-
   }
 
   init() {
     for (let x = 0; x < x_num; x++) {
       this.tiles[x] = []
       for (let y = 0; y < y_num; y++) {
-        const bombs = Math.floor(Math.max(0, Math.random() * 3 - 1))
-        const tile = new Tile({bombs, position: {x: 15 * x, y: 15 * y}, width: 15})
+        const tile = new Tile({position: {x: x, y: y}, width: 1})
         this.container.addChild(tile.graphics);
         this.tiles[x][y] = tile
       }
+    }
+    const safe_bombs_num = Math.min(x_num * y_num, bombs_num)
+    for (let bi = 0; bi < safe_bombs_num; bi++) {
+      let x = Math.floor( Math.random() * x_num)
+      let y = Math.floor( Math.random() * y_num)
+      while (this.tiles[x][y].isBomb) { // ?
+        x = Math.floor( Math.random() * x_num)
+        y = Math.floor( Math.random() * y_num)
+      }
+      this.tiles[x][y].isBomb = true
+      this.tiles[x][y].text.text = 'X'
     }
 
     for (let x = 0; x < x_num; x++) {
@@ -56,8 +80,9 @@ export default class Board {
 
         let sum = 0
         for (const n_t of t.near) {
-          sum += n_t.bombs
+          sum += n_t.isBomb
         }
+        
         t.near_bombs = sum
         t.b_text.text = t.near_bombs
       }
@@ -74,6 +99,31 @@ export default class Board {
         t.position.y = t_width * y
         t.width = t_width
         t.draw()
+      }
+    }
+  }
+
+  check(evt) {
+    let finded_bombs = 0
+    for (let x = 0; x < x_num; x++) {
+      for (let y = 0; y < y_num; y++) {
+        finded_bombs += !this.tiles[x][y].checked
+      }
+    }
+    if (finded_bombs == bombs_num) {
+      win()
+    }
+  }
+
+  mark(evt) {
+  }
+
+  set interactive(val) {
+    this.container.interactive = val
+    
+    for (let x = 0; x < x_num; x++) {
+      for (let y = 0; y < y_num; y++) {
+        this.tiles[x][y].graphics.interactive = val
       }
     }
   }
@@ -99,7 +149,6 @@ export default class Board {
       this.width = this.height * this.aspect
 
       this.container.position.x = window_width / 2 - this.width / 2
-      // this.container.position.y = window_height - this.height - min_border/2 + offset
       this.container.position.y = min_border/2 + offset
     }
   }

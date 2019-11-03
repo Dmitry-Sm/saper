@@ -1,32 +1,36 @@
 import * as PIXI from 'pixi.js'
 import colors from './colors'
+import { loose } from './main'
 
 
 export default class Tile {
-  constructor({bombs, position, width}) {
+  constructor({isBomb = false, position, width}) {
     this.position = position
     this.width = width
-    this.clicked = false
+    this.checked = false
+    this.marked = false
     this.color = colors.idle
-    this.bombs = bombs
+    this.isBomb = isBomb
     this.near = [] // array of tiles
-    this.near_bombs = bombs
+    this.near_bombs = 0
 
     this.graphics = new PIXI.Graphics();
     this.graphics.interactive = true
     this.graphics.buttonMode = true
-    this.text = new PIXI.Text(this.bombs, {fontFamily : 'Arial', fontSize: 12, fill : 0xaaaaaa})
-    this.b_text = new PIXI.Text(this.bombs, {fontFamily : 'Arial', fontSize: 14, fill : 0x111122})
-    this.text.visible = false
+    this.text = new PIXI.Text(this.isBomb ? 'X' : '', {fontFamily : 'Arial', fontSize: 12, fill : 0xaaaaaa})
+    this.b_text = new PIXI.Text(this.near_bombs, {fontFamily : 'Arial', fontSize: 14, fill : 0x111122})
+    // this.text.visible = false
     this.b_text.visible = false
 
     this.graphics.addChild(this.text)
     this.graphics.addChild(this.b_text)
 
-    const click = this.click.bind(this)
+    const check = this.check.bind(this)
+    const mark = this.mark.bind(this)
     const hover = this.hover.bind(this)
     const unhover = this.unhover.bind(this)
-    this.graphics.on('pointerdown', click)
+    this.graphics.on('click', check)
+      .on('rightclick', mark)
       .on('pointerover', hover)
       .on('pointerout', unhover)
       // .on('pointerup', onButtonUp)
@@ -44,28 +48,22 @@ export default class Tile {
     this.graphics.endFill();
   }
 
-  click(evt) {
-    console.log(evt.data.originalEvent);
-    const info = document.querySelector('.game-info')
-    info.innerHTML = evt.data.originalEvent.which
-    
-    if (this.clicked) {
+  check(evt) {
+    if (this.checked || this.marked) {
       return
     }
-    this.clicked = true
+    this.checked = true
     
-    if (this.bombs > 0) {
-      const info = document.querySelector('.game-info')
-      info.innerHTML = 'Game over'
-      this.text.visible = true
+    if (this.isBomb) {
+      loose()
 
       return
     }
-    this.draw(colors.clicked)
+    this.draw(colors.checked)
 
     if (this.near_bombs == 0) {
       for (const t of this.near) {
-        t.click()
+        t.check(evt)
       }
     }
     else {
@@ -73,15 +71,28 @@ export default class Tile {
     }
   }
 
+  mark() {
+    if (this.checked) {
+      return
+    }
+    this.marked = !this.marked
+    if (this.marked) {
+      this.draw(colors.marked)
+    }
+    else {
+      this.draw(colors.idle)
+    }
+  }
+
   hover() {
-    if (this.clicked) {
+    if (this.checked || this.marked) {
       return
     }
     this.draw(colors.hover)
   }
 
   unhover() {
-    if (this.clicked) {
+    if (this.checked || this.marked) {
       return
     }
     this.draw(colors.idle)
