@@ -24,10 +24,29 @@ export default class Tile {
     const mark = this.mark.bind(this)
     const hover = this.hover.bind(this)
     const unhover = this.unhover.bind(this)
+
+    let touch_timer = 0
+    let longpress = false
+    const tstart = (evt => {
+      longpress = false
+      touch_timer = setTimeout(() => {
+        longpress = true
+        mark()
+      }, 400);
+    })
+    const tend = (evt => {
+      clearTimeout(touch_timer)
+      if (!longpress) {
+        check()
+      }
+    })
+
     this.graphics.on('click', check)
       .on('rightclick', mark)
-      .on('pointerover', hover)
-      .on('pointerout', unhover)
+      .on('mouseover', hover)
+      .on('mouseout', unhover)
+      .on('touchstart', tstart)
+      .on('touchend', tend)
       // .on('pointerup', onButtonUp)
       // .on('pointerupoutside', onButtonUp)
   }
