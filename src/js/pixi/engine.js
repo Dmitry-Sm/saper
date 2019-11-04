@@ -7,7 +7,7 @@ const initPixi = () => {
     // height: 40,        // default: 600
     antialias: true,    // default: false
     // transparent: false, // default: false
-    // resolution: 2,       // default: 1
+    resolution: 1.5,       // default: 1
     // scale: 0.5,  
     // autoResize: true
   })

@@ -4,21 +4,20 @@ import { loose } from './main'
 
 
 export default class Tile {
-  constructor({position, width}) {
+  constructor({mine_pic, position, width}) {
     this.position = position
     this.width = width
+    this.mine_pic = mine_pic
 
     this.graphics = new PIXI.Graphics();
     this.graphics.interactive = true
     this.graphics.buttonMode = true
-    this.text = new PIXI.Text(this.isBomb ? 'X' : '', {fontFamily : 'Arial', fontSize: 12, fill : 0xaaaaaa})
-    this.b_text = new PIXI.Text(this.near_bombs, {fontFamily : 'Arial', fontSize: 14, fill : 0x111122})
-    // this.text.visible = false
-    this.b_text.visible = false
+    this.text = new PIXI.Text(this.near_bombs, {fontFamily : 'Arial', fontSize: 12, fill : 0xaaaaaa})
+    // this.b_text.visible = false
     this.graphics.addChild(this.text)
-    this.graphics.addChild(this.b_text)
 
     this.reset()
+    this.resize()
 
     const check = this.check.bind(this)
     const mark = this.mark.bind(this)
@@ -54,8 +53,7 @@ export default class Tile {
   draw(color = this.color) {
     this.color = color
     this.graphics.clear()
-    this.text.position.set(this.position.x + 4, this.position.y)
-    this.b_text.position.set(this.position.x + 12, this.position.y + 12)
+    // this.resize()
 
     this.graphics.beginFill(color);
     this.graphics.drawRect(this.position.x, this.position.y, this.width-1, this.width-1);
@@ -66,12 +64,24 @@ export default class Tile {
     this.checked = false
     this.marked = false
     this.isBomb = false
-    this.text.text = ''
-    this.b_text.visible = false
+    this.text.visible = false
+    // this.mine_pic.visible = false
 
     this.color = colors.idle
     this.near = [] // array of tiles
     this.near_bombs = 0
+    
+    this.resize()
+  }
+
+  resize() {
+    const half_width = this.width / 2
+    this.mine_pic.width = half_width
+    this.mine_pic.height = half_width
+    this.mine_pic.position.set(this.position.x + half_width /2, this.position.y + half_width /2)
+    
+    this.text.position.set(this.position.x + 4, this.position.y)
+    this.text.fontSize = half_width
   }
 
   check(evt) {
@@ -93,7 +103,7 @@ export default class Tile {
       }
     }
     else {
-      this.b_text.visible = true
+      this.text.visible = true
     }
   }
 

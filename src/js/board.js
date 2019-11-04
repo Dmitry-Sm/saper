@@ -2,6 +2,7 @@ import * as PIXI from 'pixi.js'
 import app from './app';
 import Tile from './tile';
 import { win } from './main';
+import { textures } from './pixi/textures';
 
 const x_num = 3
 const y_num = 2
@@ -41,8 +42,9 @@ export default class Board {
     for (let x = 0; x < x_num; x++) {
       this.tiles[x] = []
       for (let y = 0; y < y_num; y++) {
-        const tile = new Tile({position: {x: x, y: y}, width: 1})
-        this.container.addChild(tile.graphics);
+        const mine_pic = new PIXI.Sprite(textures.mine)
+        const tile = new Tile({mine_pic, position: {x: x, y: y}, width: 1})
+        this.container.addChild(tile.graphics, mine_pic);
         this.tiles[x][y] = tile
       }
     }
@@ -90,21 +92,16 @@ export default class Board {
         }
         
         t.near_bombs = sum
-        t.b_text.text = t.near_bombs
+        t.text.text = t.near_bombs
       }
     }
     this.resize()
   }
 
   draw() {
-    const t_width = this.width / x_num
     for (let x = 0; x < x_num; x++) {
       for (let y = 0; y < y_num; y++) {
-        const t = this.tiles[x][y]
-        t.position.x = t_width * x
-        t.position.y = t_width * y
-        t.width = t_width
-        t.draw()
+        this.tiles[x][y].draw()
       }
     }
   }
@@ -156,6 +153,18 @@ export default class Board {
 
       this.container.position.x = window_width / 2 - this.width / 2
       this.container.position.y = min_border/2 + offset
+    }
+    const t_width = this.width / x_num
+    
+    for (let x = 0; x < x_num; x++) {
+      for (let y = 0; y < y_num; y++) {
+        const t = this.tiles[x][y]
+
+        t.position.x = t_width * x
+        t.position.y = t_width * y
+        t.width = t_width
+        t.resize()
+      }
     }
   }
 

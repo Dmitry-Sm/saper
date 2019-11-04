@@ -2,9 +2,12 @@ import * as PIXI from 'pixi.js'
 
 
 const textures_list = [
-  // { name: 'background',
-  //   path: require('../../assets/textures/background.png')
-  // },
+  { name: 'mine',
+    path: require('../../assets/images/mine2.png')
+  },
+  { name: 'flag',
+    path: require('../../assets/images/flag.png')
+  },
 ]
 
 const sprites = {}
