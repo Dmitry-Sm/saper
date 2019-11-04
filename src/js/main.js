@@ -52,5 +52,4 @@ export {
 }
 
 
-// TODO: touch control
 // TODO: visual

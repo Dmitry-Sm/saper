@@ -9,6 +9,8 @@ body {
 
 * {
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent !important;
+  outline: none !important;
 }
 
 .container {
@@ -46,16 +48,10 @@ canvas {
 
   background: rgba(40, 20, 80, 0.9);
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  // text-align: center;
   visibility: hidden;
-  
-  .start-btn {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 20%;
-  }
 }
 
 
@@ -67,24 +63,17 @@ canvas {
   height: 100%;
 
   background: rgba(40, 20, 80, 0.9);
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 26px;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  color: white;
   visibility: hidden;
   
   .exit-btn {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 20%;
   }
   .resume-btn {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: calc(20% + 70px);
+  }
+  .resume-btn {
   }
 }
 
@@ -92,13 +81,18 @@ canvas {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: auto;
+  margin: 5px;
   width: 80%;
   max-width: 300px;
   height: 20%;
   max-height: 60px;
 
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 26px;
+  color: white;
+
   cursor: pointer;
+  box-decoration-break: none;
 
   border-radius: 10px;
   background: rgba(80, 20, 40, 1);
@@ -112,24 +106,16 @@ canvas {
   position: absolute;
   top: 10px;
   right: 10px;
+  max-width: 60px;
 
-  width: 40%;
-  max-width: 140px;
-  height: 20%;
-  max-height: 60px;
-
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 22px;
-  display: flex;
-  align-items: center;
-  color: white;
-  justify-content: center; 
-  cursor: pointer;
-  
-  &:hover {
-    background: rgba(60, 30, 50, 1);
+  &::after {
+    content: ''; 
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    width: 80%;
+    height: 80%;
+    background: url('../assets/images/pause.png') 50% 50% no-repeat;
+    background-size: contain;
   }
-  
-  border-radius: 10px;
-  background: rgba(80, 20, 40, 1);
 }
