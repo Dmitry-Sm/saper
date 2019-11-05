@@ -84,7 +84,7 @@ export default class Tile {
     this.mine_pic.height = half_width
     this.mine_pic.position.set(this.position.x + half_width /2, this.position.y + half_width /2)
     
-    this.text.position.set(this.position.x + half_width * 0.7, this.position.y + half_width /2)
+    this.text.position.set(this.position.x + this.width * 0.37, this.position.y + half_width /2)
     this.text.style.fontSize = half_width
   }
 
