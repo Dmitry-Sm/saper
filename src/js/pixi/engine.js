@@ -13,7 +13,7 @@ const initPixi = () => {
   })
 
   app.renderer.autoResize = true
-  app.renderer.backgroundColor = 0x1363ab
+  app.renderer.backgroundColor = 0x58819F
   app.renderer.view.classList.add('main-canvas')
 
   const container = document.querySelector('.container')

@@ -35,7 +35,7 @@ canvas {
   left: 0;
   width: 100%;
   height: 120px;
-  background: rgba(40, 20, 80, 0.4);
+  background: #2F4858;
   padding: 15px;
 
   font-family: 'Courier New', Courier, monospace;
@@ -82,7 +82,7 @@ canvas {
   width: 100%;
   height: 100%;
 
-  background: rgba(40, 20, 80, 0.9);
+  background: rgba(42, 72, 88, 0.8);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -113,10 +113,10 @@ canvas {
 
   cursor: pointer;
   border-radius: 10px;
-  background: rgba(80, 20, 40, 1);
-
+  background: #F7A275;
+  
   &:hover {
-    background: rgba(60, 30, 50, 1);
+    background: #F9D491;
   }
 }
 

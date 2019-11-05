@@ -5,11 +5,12 @@ import app from './app'
 
 
 export default class Tile {
-  constructor({mine_pic, flag_pic, position, width}) {
+  constructor({mine_pic, flag_pic, color, position, width}) {
     this.position = position
     this.width = width
     this.mine_pic = mine_pic
     this.flag_pic = flag_pic
+    this.def_color = color
 
     this.graphics = new PIXI.Graphics();
     this.graphics.interactive = true
@@ -61,7 +62,7 @@ export default class Tile {
     // this.resize()
 
     this.graphics.beginFill(color);
-    this.graphics.drawRect(this.position.x, this.position.y, this.width-1, this.width-1);
+    this.graphics.drawRect(this.position.x, this.position.y, this.width, this.width);
     this.graphics.endFill();
   }
 
@@ -73,7 +74,7 @@ export default class Tile {
     this.mine_pic.visible = false
     this.flag_pic.visible = false
 
-    this.color = colors.idle
+    this.color = this.def_color
     this.near = [] // array of tiles
     this.near_bombs = 0
     
@@ -127,7 +128,7 @@ export default class Tile {
       this.flag_pic.visible = true
     }
     else {
-      this.draw(colors.idle)
+      this.draw(this.def_color)
       this.flag_pic.visible = false
     }
   }
@@ -143,6 +144,6 @@ export default class Tile {
     if (this.checked || this.marked) {
       return
     }
-    this.draw(colors.idle)
+    this.draw(this.def_color)
   }
 }

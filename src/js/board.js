@@ -3,6 +3,7 @@ import app from './app';
 import Tile from './tile';
 import { win } from './main';
 import { textures } from './pixi/textures';
+import colors from './colors';
 
 const x_num = 8
 const y_num = 6
@@ -47,7 +48,8 @@ export default class Board {
       for (let y = 0; y < y_num; y++) {
         const mine_pic = new PIXI.Sprite(textures.mine)
         const flag_pic = new PIXI.Sprite(textures.flag)
-        const tile = new Tile({mine_pic, flag_pic, position: {x: x, y: y}, width: 1})
+        const color = (x + y) %  2 == 0 ? colors.idle : colors.idle2
+        const tile = new Tile({mine_pic, flag_pic, color, position: {x: x, y: y}, width: 1})
         this.container.addChild(tile.graphics, mine_pic, flag_pic);
         this.tiles[x][y] = tile
       }
