@@ -46,8 +46,9 @@ export default class Board {
       this.tiles[x] = []
       for (let y = 0; y < y_num; y++) {
         const mine_pic = new PIXI.Sprite(textures.mine)
-        const tile = new Tile({mine_pic, position: {x: x, y: y}, width: 1})
-        this.container.addChild(tile.graphics, mine_pic);
+        const flag_pic = new PIXI.Sprite(textures.flag)
+        const tile = new Tile({mine_pic, flag_pic, position: {x: x, y: y}, width: 1})
+        this.container.addChild(tile.graphics, mine_pic, flag_pic);
         this.tiles[x][y] = tile
       }
     }
