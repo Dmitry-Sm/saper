@@ -1,6 +1,7 @@
 import * as PIXI from 'pixi.js'
 import colors from './colors'
 import { loose } from './main'
+import app from './app'
 
 
 export default class Tile {
@@ -18,7 +19,10 @@ export default class Tile {
 
     this.reset()
     this.resize()
+    this._initControls()
+  }
 
+  _initControls() {
     const check = this.check.bind(this)
     const mark = this.mark.bind(this)
     const hover = this.hover.bind(this)
@@ -26,14 +30,14 @@ export default class Tile {
 
     let touch_timer = 0
     let longpress = false
-    const tstart = (evt => {
+    const touchstart = (evt => {
       longpress = false
       touch_timer = setTimeout(() => {
         longpress = true
         mark()
       }, 400);
     })
-    const tend = (evt => {
+    const touchend = (evt => {
       clearTimeout(touch_timer)
       if (!longpress) {
         check()
@@ -44,8 +48,8 @@ export default class Tile {
       .on('rightclick', mark)
       .on('mouseover', hover)
       .on('mouseout', unhover)
-      .on('touchstart', tstart)
-      .on('touchend', tend)
+      .on('touchstart', touchstart)
+      .on('touchend', touchend)
       // .on('pointerup', onButtonUp)
       // .on('pointerupoutside', onButtonUp)
   }
@@ -65,7 +69,7 @@ export default class Tile {
     this.marked = false
     this.isBomb = false
     this.text.visible = false
-    // this.mine_pic.visible = false
+    this.mine_pic.visible = false
 
     this.color = colors.idle
     this.near = [] // array of tiles
@@ -80,8 +84,8 @@ export default class Tile {
     this.mine_pic.height = half_width
     this.mine_pic.position.set(this.position.x + half_width /2, this.position.y + half_width /2)
     
-    this.text.position.set(this.position.x + 4, this.position.y)
-    this.text.fontSize = half_width
+    this.text.position.set(this.position.x + half_width * 0.7, this.position.y + half_width /2)
+    this.text.style.fontSize = half_width
   }
 
   check(evt) {
@@ -91,7 +95,7 @@ export default class Tile {
     this.checked = true
     
     if (this.isBomb) {
-      loose()
+      app.game.loose()
 
       return
     }

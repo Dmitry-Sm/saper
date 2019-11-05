@@ -4,11 +4,11 @@ import Tile from './tile';
 import { win } from './main';
 import { textures } from './pixi/textures';
 
-const x_num = 3
-const y_num = 2
+const x_num = 8
+const y_num = 6
 const min_border = 20
 const offset = 120
-const bombs_num = 3
+const bombs_num = 8
 
 
 export default class Board {
@@ -38,6 +38,9 @@ export default class Board {
       resize()
       this.draw()
     })
+    const bombs_text = document.querySelector('.bombs-count')
+    bombs_text.innerHTML = `Bombs - ${bombs_num}`
+    
 
     for (let x = 0; x < x_num; x++) {
       this.tiles[x] = []
@@ -71,7 +74,6 @@ export default class Board {
     for (let x = 0; x < x_num; x++) {
       for (let y = 0; y < y_num; y++) {
         const t = this.tiles[x][y]
-        if (x - 1 >= 0) {}
         const left = x - 1 >= 0
         const top = y - 1 >= 0
         const right = x + 1 < x_num
@@ -114,7 +116,7 @@ export default class Board {
       }
     }
     if (finded_bombs == bombs_num) {
-      win()
+      app.game.win()
     }
   }
 
@@ -129,6 +131,14 @@ export default class Board {
         this.tiles[x][y].graphics.interactive = val
       }
     }
+  }
+  showMines() {
+    for (let x = 0; x < x_num; x++) {
+      for (let y = 0; y < y_num; y++) {
+        this.tiles[x][y].mine_pic.visible = this.tiles[x][y].isBomb
+      }
+    }
+
   }
 
   clear() {

@@ -15,28 +15,33 @@ const initControls = (params) => {
     start_menu.style.visibility = 'hidden'
     pause_btn.style.visibility = 'visible'
     // restart
-    app.board.init()
-    app.board.draw()
-    app.board.interactive = true
+    const text_result = document.querySelector('.game-result')
+    text_result.innerHTML = ''
+    app.game.start()
   })
   
   restart_btn.addEventListener('click', evt => {
     pause_menu.style.visibility = 'hidden'
     pause_btn.style.visibility = 'visible'
     // restart
-    app.board.init()
-    app.board.draw()
-    app.board.interactive = true
+
+    const text_result = document.querySelector('.game-result')
+    text_result.innerHTML = ''
+    app.game.start()
   })
 
   pause_btn.addEventListener('click', evt => {
+
+    app.game.pause()
     pause_menu.style.visibility = 'visible'
     pause_btn.style.visibility = 'hidden'
+
   })
   
   exit_btn.addEventListener('click', evt => {
     start_menu.style.visibility = 'visible'
     pause_menu.style.visibility = 'hidden'
+    app.game.stop()
     
     // clear board
     
@@ -44,6 +49,7 @@ const initControls = (params) => {
   resume_btn.addEventListener('click', evt => {
     pause_btn.style.visibility = 'visible'
     pause_menu.style.visibility = 'hidden'
+    app.game.resume()
     
   })
   
