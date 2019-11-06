@@ -149,7 +149,7 @@ export default class Board {
   }
 
   resize() {
-    const window_width = window.innerWidth
+    const window_width =  Math.min(1000, window.innerWidth)
     const window_height = window.innerHeight - offset
     const window_aspect = window_width / window_height
 
@@ -157,14 +157,14 @@ export default class Board {
       this.width = window_width - min_border
       this.height = this.width / this.aspect
 
-      this.container.position.x = min_border / 2
+      this.container.position.x = (window.innerWidth - this.width)/2
       this.container.position.y = window_height / 2 - this.height / 2 + offset
     }
     else { // по высоте
       this.height = window_height - min_border
       this.width = this.height * this.aspect
 
-      this.container.position.x = window_width / 2 - this.width / 2
+      this.container.position.x = window.innerWidth / 2 - this.width / 2
       this.container.position.y = min_border/2 + offset
     }
     const t_width = this.width / x_num
