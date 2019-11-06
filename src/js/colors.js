@@ -1,9 +1,9 @@
 export default {
   idle: 0x6ACACC,
   idle2: 0x85D3D5,
-  hover: 0x9EC5AB,
+  hover: 0x2d82af,
   checked: 0x546976,
-  marked: 0x104F55
+  marked: 0x22be99
 }
 
 // export default {
