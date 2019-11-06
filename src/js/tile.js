@@ -73,6 +73,7 @@ export default class Tile {
     this.text.visible = false
     this.mine_pic.visible = false
     this.flag_pic.visible = false
+    this.flag_scale = 1
 
     this.color = this.def_color
     this.near = [] // array of tiles
@@ -87,8 +88,8 @@ export default class Tile {
     this.mine_pic.height = half_width
     this.mine_pic.position.set(this.position.x + half_width /2, this.position.y + half_width /2)
     
-    this.flag_pic.width = half_width
-    this.flag_pic.height = half_width
+    this.flag_pic.width = half_width * this.flag_scale
+    this.flag_pic.height = half_width * this.flag_scale
     this.flag_pic.position.set(this.position.x + half_width /2, this.position.y + half_width * 0.35)
     
     this.text.position.set(this.position.x + this.width * 0.37, this.position.y + half_width * 0.45)

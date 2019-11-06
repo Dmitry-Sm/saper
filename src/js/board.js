@@ -138,10 +138,13 @@ export default class Board {
   showMines() {
     for (let x = 0; x < x_num; x++) {
       for (let y = 0; y < y_num; y++) {
-        this.tiles[x][y].mine_pic.visible = this.tiles[x][y].isBomb
+        const t = this.tiles[x][y]
+        t.flag_scale = t.marked && !t.isBomb ? 0.6 : 1
+        t.mine_pic.visible = t.isBomb
       }
     }
-
+    this.resize()
+    this.draw()
   }
 
   clear() {
