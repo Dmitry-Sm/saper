@@ -19,7 +19,7 @@ window.onload = async () => {
   initResize()
   
   app.game = new Game()
-  app.game.start()
+  // app.game.start()
   
   initControls()
 }
