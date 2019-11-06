@@ -2,6 +2,9 @@ const webpack = require('webpack')
 const path = require('path')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const RuntimeAnalyzerPlugin = require('webpack-runtime-analyzer');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
+
 
 const output = {
   filename: '[name].js',
@@ -19,17 +22,14 @@ const style_loader = {
 }
 
 const file_loader = {
-  test: /\.(gif|png|jpe?g|svg)$/i,
+  test: /\.(png|jpg|gif)$/i,
   use: [
-    "file-loader",
     {
-      loader: "image-webpack-loader",
-      options: {
-        disable: true
-      }
-    }
-  ]
+      loader: 'url-loader'
+    },
+  ],
 }
+
 
 
 const rules = [
@@ -38,6 +38,13 @@ const rules = [
 ]
 
 const plugins = [
+  new HtmlWebpackPlugin({
+    template: './index.html',
+    inject: 'body',
+    inlineSource: '.(js|css)$',
+  }),
+  
+  new HtmlWebpackInlineSourcePlugin()
 ]
 
 module.exports = {
@@ -56,6 +63,9 @@ if (process.env.NODE_ENV === 'production') {
   module.exports.devtool = '#source-map'
   module.exports = {
     mode: 'production',
+    entry: { build: './src/js/main.js' },
+    output,
+
     module: {
         rules: [{
             test: /\.(js)$/,
@@ -63,8 +73,12 @@ if (process.env.NODE_ENV === 'production') {
             use: {
                 loader: 'babel-loader'
             }
-        }]
+        },
+        file_loader
+      ]
     },
+    
+    plugins,  
     optimization: {
         minimizer: [new UglifyJSPlugin({
             uglifyOptions: {
