@@ -117,11 +117,9 @@ canvas {
   background: #F7A275;
 
   box-shadow: 2px 3px 4px rgba(12, 22, 48, 0.5);
-  transition-delay: 0ms;
   
   &:hover {
     background: #F9D491;
-    transition-delay: 200ms;
     box-shadow: 0px 0px 0px rgba(12, 22, 48, 0.6);
   }
 }
